@@ -15,9 +15,8 @@ type Comment struct {
 
 func main() {
 	app := fiber.New()
-	app.Group("/api/v1")
 	app.Post("/comments", createComment)
-	app.Listen(":3000")
+	app.Listen(":6000")
 }
 
 func ConnectProducer(brokersUrl []string) (sarama.SyncProducer, error) {
@@ -40,6 +39,7 @@ func PushCommentToQueue(topic string, message []byte) error {
 	if err != nil {
 		return err
 	}
+
 	defer producer.Close()
 
 	msg := &sarama.ProducerMessage{
@@ -58,6 +58,7 @@ func PushCommentToQueue(topic string, message []byte) error {
 
 func createComment(c *fiber.Ctx) error {
 	cmt := new(Comment)
+
 	if err := c.BodyParser(cmt); err != nil {
 		log.Println(err)
 		c.Status(400).JSON(&fiber.Map{

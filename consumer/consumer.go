@@ -28,7 +28,6 @@ func main() {
 	msgCount := 0
 
 	doneCh := make(chan struct{})
-
 	go func() {
 		for {
 			select {
@@ -43,7 +42,6 @@ func main() {
 			}
 		}
 	}()
-
 	<-doneCh
 	fmt.Println("Processed", msgCount, "messages")
 	if err := worker.Close(); err != nil {
