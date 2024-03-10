@@ -15,6 +15,7 @@ type Comment struct {
 
 func main() {
 	app := fiber.New()
+	app.Group("/api/v1")
 	app.Post("/comments", createComment)
 	app.Listen(":3000")
 }
